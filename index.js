@@ -1,7 +1,6 @@
 var express = require('express');
 var Canvas = require('canvas');
 var url = require('url');
-
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
