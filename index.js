@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 
 app.get('/', function(request, response) {
-  response.end('hello there');
+  response.end('hello theres');
   // try {
   //   var queryObject = url.parse(request.url,true).query;
   //   console.log(queryObject);
