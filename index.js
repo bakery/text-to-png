@@ -20,7 +20,10 @@ app.get('/', function(request, response) {
     var Image = Canvas.Image;
     var canvas = new Canvas(400, 200);
     var ctx = canvas.getContext('2d');
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0,0,400,200);
 
+    ctx.fillStyle = "#000000";
     ctx.font = '14px fontOpenSans';
 
     function wrapText(context, text, x, y, maxWidth, lineHeight) {
@@ -44,10 +47,21 @@ app.get('/', function(request, response) {
     }
       
     wrapText(ctx, text, (400-360)/2, 60, 360, 20);
-    var stream = canvas.createPNGStream();
+    
 
-    response.writeHead(200, {"Content-Type": "image/png"});
-    stream.pipe(response);
+    if (queryObject.base64) {
+      canvas.toDataURL('image/png', function(err, png){ 
+        if (!err) {
+          response.end(png);
+        } else {
+          response.end('problem generating png: ' + err.toString());
+        }
+      });
+    } else {
+      var stream = canvas.createPNGStream();
+      response.writeHead(200, {"Content-Type": "image/png"});
+      stream.pipe(response);
+    }
   } catch(e) {
     response.end('something went wrong: ' + e.message || e.toString());
   }
